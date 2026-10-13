@@ -3,3 +3,10 @@
 body {
 	background: #000;
 }
+
+@media (hover: hover) and (pointer: fine) {
+	html.custom-cursor-active,
+	html.custom-cursor-active * {
+		cursor: none !important;
+	}
+}

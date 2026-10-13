@@ -2,6 +2,7 @@
   import { setContext } from "svelte";
   import "./layout.css";
   import Preloader from "#lib/components/Preloader.svelte";
+  import CustomCursor from "#lib/components/CustomCursor.svelte";
   import type { LayoutProps } from "./$types";
 
   let { children }: LayoutProps = $props();
@@ -14,6 +15,7 @@
 </svelte:head>
 
 <Preloader oncomplete={() => (intro.complete = true)} />
+<CustomCursor />
 <div
   class="intro-content"
   class:intro-pending={!intro.complete}

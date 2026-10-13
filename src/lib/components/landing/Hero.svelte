@@ -5,6 +5,57 @@
     complete: true,
   };
   let spreadComplete = $state(false);
+  let dragging = $state(false);
+  let dragOffset = $state(0);
+  let track: HTMLDivElement;
+  let dragStartX = 0;
+  let dragStartOffset = 0;
+
+  function wrapOffset(offset: number) {
+    const setWidth = track?.getBoundingClientRect().width / 5;
+    if (!setWidth) return offset;
+    return (
+      ((((offset + setWidth / 2) % setWidth) + setWidth) % setWidth) -
+      setWidth / 2
+    );
+  }
+
+  function startDrag(event: PointerEvent) {
+    if (
+      !intro.complete ||
+      !spreadComplete ||
+      (event.pointerType === "mouse" && event.button !== 0)
+    )
+      return;
+    dragging = true;
+    dragStartX = event.clientX;
+    dragStartOffset = dragOffset;
+    if (event.currentTarget instanceof HTMLElement) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+  }
+
+  function moveDrag(event: PointerEvent) {
+    if (dragging)
+      dragOffset = wrapOffset(dragStartOffset + event.clientX - dragStartX);
+  }
+
+  function stopDrag() {
+    dragging = false;
+  }
+
+  function moveWithKeyboard(event: KeyboardEvent) {
+    if (!intro.complete || !spreadComplete) return;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      dragOffset = wrapOffset(
+        dragOffset + (event.key === "ArrowLeft" ? 80 : -80),
+      );
+    } else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      dragOffset = wrapOffset(dragOffset - 80);
+    }
+  }
 
   onMount(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -51,39 +102,47 @@
 </script>
 
 <section aria-labelledby="hero-title" class="hero bg-black text-white">
-  <div class="hero-intro mx-auto w-full max-w-7xl px-6 pt-5 sm:px-10 sm:pt-7">
-    <h1
-      id="hero-title"
-      class="hero-title font-normal leading-[0.98] tracking-[-0.075em]"
-    >
-      Puede Nang. <span class="text-white/55">Matulog.</span>
+  <div class="hero-intro mx-auto w-full max-w-[96rem] px-6 sm:px-10">
+    <h1 id="hero-title" class="hero-title font-medium text-white/95">
+      Sleek. Scalable. Dynamic.<br />
+      Digital that delivers.
     </h1>
   </div>
 
   <div
     class="marquee-window"
-    role="img"
-    aria-label="An animated gallery of 3D isometric cards"
+    class:dragging
+    role="button"
+    aria-label="Explore featured gallery. Drag left or right, or use the arrow keys or Enter."
+    tabindex="0"
+    onpointerdown={startDrag}
+    onpointermove={moveDrag}
+    onpointerup={stopDrag}
+    onpointercancel={stopDrag}
+    onkeydown={moveWithKeyboard}
   >
     <div
+      bind:this={track}
       class="marquee-track"
       class:waiting={!intro.complete}
       class:spreading={intro.complete && !spreadComplete}
       class:playing={intro.complete && spreadComplete}
+      class:dragging
+      style:translate={`${dragOffset}px 0`}
     >
-      {#each [0, 1, 2] as repeat}
+      {#each [0, 1, 2, 3, 4] as repeat}
         <div
           class="marquee-set"
-          class:featured={repeat === 1}
+          class:featured={repeat === 2}
           aria-hidden="true"
         >
           {#each cards as card, index}
             <div
               class="marquee-card"
-              style={`--stack: ${100 - (repeat * cards.length + index)}; --slab-color: ${card.slab}; --card-tint: ${card.tint}; --card-accent: ${card.accent}; --reveal-delay: ${350 + Math.abs(index - 2) * 180 + (index > 2 ? 90 : 0)}ms;`}
+              style={`--stack: ${100 - (repeat * cards.length + index)}; --slab-color: ${card.slab}; --card-tint: ${card.tint}; --card-accent: ${card.accent}; --reveal-delay: ${100 + Math.abs(index - 2) * 110}ms;`}
               onanimationend={(event) => {
                 if (
-                  repeat === 1 &&
+                  repeat === 2 &&
                   index === 4 &&
                   event.target === event.currentTarget &&
                   event.animationName.includes("card-spread")
@@ -100,6 +159,7 @@
                     alt=""
                     class="card-back-img"
                     loading="lazy"
+                    draggable="false"
                   />
                   <div class="card-back-glass"></div>
                   <div class="card-back-grid"></div>
@@ -117,7 +177,8 @@
                   <img
                     src={card.image}
                     alt={card.alt}
-                    loading={repeat === 1 ? "eager" : "lazy"}
+                    loading={repeat === 2 ? "eager" : "lazy"}
+                    draggable="false"
                   />
                   <span class="card-glass"></span>
                 </div>
@@ -128,19 +189,10 @@
       {/each}
     </div>
   </div>
-
-  <div class="hero-bottom mx-auto w-full max-w-7xl px-6 pb-6 sm:px-10 sm:pb-8">
-    <a
-      href="#services"
-      class="hero-action inline-flex items-center gap-8 border-b border-white/70 pb-2 text-sm font-medium tracking-wide transition-colors hover:text-white/65 focus-visible:text-white/65"
-    >
-      Explore what we do <span aria-hidden="true">↗</span>
-    </a>
-    <p
-      class="hero-description text-base leading-relaxed text-white/65 sm:text-lg"
-    >
-      Sypher Creative Solutions brings thoughtful ideas and creative execution
-      together to help your brand move forward.
+  <div class="hero-caption mx-auto w-full max-w-[96rem] px-6 pb-8 sm:px-10 sm:pb-10">
+    <p class="ml-auto max-w-[34rem] text-right text-base leading-relaxed text-white sm:text-lg">
+      From strategy to standout digital experiences, we help your marketing
+      reach further and your business grow.
     </p>
   </div>
 </section>
@@ -158,39 +210,42 @@
   }
   .hero-title {
     font-size: clamp(1.8rem, 3.3vw, 3.75rem);
+    line-height: 1.05;
     white-space: nowrap;
   }
-  .hero-bottom {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 2rem;
+  .hero-caption {
+    position: relative;
+    z-index: 2;
+    margin-top: -3rem;
+    pointer-events: none;
   }
-  .hero-action {
-    flex: none;
+  .hero-caption p {
+    text-shadow: 0 2px 12px #000, 0 0 24px #000;
   }
-  .hero-description {
-    max-width: 30rem;
-    margin: 0;
-  }
-
   .marquee-window {
     display: flex;
     align-items: center;
     width: 100%;
-    height: clamp(16rem, 40svh, 26rem);
+    height: clamp(24rem, 50svh, 36rem); /* Scaled up window height */
     flex: 1 1 auto;
-    min-height: 16rem;
+    min-height: 24rem;
     overflow: hidden;
     background: #000;
-    pointer-events: none;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+  }
+  .marquee-window:active {
+    cursor: grabbing;
   }
 
   .marquee-track {
-    --card-width: clamp(10rem, 16vw, 15rem);
-    --half-card-width: clamp(5rem, 8vw, 7.5rem);
-    --card-height: clamp(13rem, 21vw, 19rem);
-    --card-gap: clamp(1rem, 2vw, 2rem);
+    /* Scaled up card dimensions */
+    --card-width: clamp(14rem, 22vw, 20rem);
+    --half-card-width: clamp(7rem, 11vw, 10rem);
+    --card-height: clamp(18rem, 28vw, 26rem);
+    --card-gap: clamp(1.5rem, 3vw, 3rem);
+
     --card-step: calc(var(--card-width) + var(--card-gap));
     --center-shift: calc(
       var(--card-step) + var(--card-step) + var(--half-card-width)
@@ -201,12 +256,15 @@
     align-items: center;
     width: max-content;
     flex: none;
-    transform: translateX(calc(-50% + 16.666667% - var(--center-shift)));
+    transform: translateX(calc(-50% + 10% - var(--center-shift)));
     will-change: transform;
   }
 
   .marquee-track.playing {
-    animation: drift 55s linear infinite;
+    animation: drift 24s linear infinite;
+  }
+  .marquee-track.dragging {
+    animation-play-state: paused;
   }
 
   .marquee-set {
@@ -232,7 +290,7 @@
   }
 
   .marquee-track.spreading .featured .marquee-card:not(:nth-child(3)) {
-    animation: card-spread 900ms cubic-bezier(0.22, 1, 0.36, 1)
+      animation: card-spread 550ms cubic-bezier(0.22, 1, 0.36, 1)
       var(--reveal-delay) both;
   }
 
@@ -262,12 +320,14 @@
   }
 
   /* 3D Backplate */
-  /* 3D Backplate */
   .card-back {
     position: absolute;
     inset: 0;
     z-index: 1;
-    transform: translate(9px, -8px);
+    transform: translate(
+      11px,
+      -10px
+    ); /* Slightly increased translation for larger cards */
     border-radius: 2rem;
     pointer-events: none;
     transition: transform 300ms ease;
@@ -278,26 +338,21 @@
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    /* Translucent glassmorphism base */
     background: rgba(18, 20, 26, 0.2);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    /* 1px metallic perimeter bevel with color-matched highlight */
     border: 1px solid rgba(255, 255, 255, 0.35);
     box-shadow:
-      /* Metallic specular bevel reflections */
       inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.7),
       inset 1.5px 0 1px 0 rgba(255, 255, 255, 0.35),
       inset 0 -1.5px 1.5px 0 rgba(0, 0, 0, 0.75),
       inset -1.5px 0 1.5px 0 rgba(0, 0, 0, 0.45),
-      /* Ambient glass color glow matching image */ 0 10px 30px -4px color-mix(in
-            srgb, var(--card-tint, #fff) 40%, transparent),
-      /* Deep 3D drop shadow */ 14px 12px 28px rgba(0, 0, 0, 0.65),
+      0 10px 30px -4px color-mix(in srgb, var(--card-tint, #fff) 40%, transparent),
+      14px 12px 28px rgba(0, 0, 0, 0.65),
       28px 24px 56px rgba(0, 0, 0, 0.85);
     overflow: hidden;
   }
 
-  /* Clear image reflection so the side and back showcase the actual picture */
   .card-back-img {
     position: absolute;
     inset: 0;
@@ -310,7 +365,6 @@
     pointer-events: none;
   }
 
-  /* Frosted luxury dark graphite glass overlay with smooth translucency */
   .card-back-glass {
     position: absolute;
     inset: 0;
@@ -387,12 +441,10 @@
     height: 100%;
     border-radius: 2rem;
     background-color: var(--slab-color, #353744);
-    /* 3D slab thickness: exposed top rim and right rim */
     padding-top: 7px;
     padding-right: 4px;
     padding-bottom: 1px;
     padding-left: 1px;
-    /* 3D extrusion slices bridging the front slab to the backplate with glass specular transitions */
     box-shadow:
       inset 0 1px 1px rgba(255, 255, 255, 0.55),
       1px -1px 0 0 rgba(255, 255, 255, 0.25),
@@ -426,7 +478,6 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    /* Subtle realistic ambient sheen and perimeter highlight */
     background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.12) 0%,
@@ -441,10 +492,10 @@
 
   @keyframes drift {
     from {
-      transform: translateX(calc(-50% + 16.666667% - var(--center-shift)));
+      transform: translateX(calc(-50% + 10% - var(--center-shift)));
     }
     to {
-      transform: translateX(calc(-50% - 16.666667% - var(--center-shift)));
+      transform: translateX(calc(-50% - 10% - var(--center-shift)));
     }
   }
 
@@ -481,13 +532,10 @@
 
   @media (max-width: 1023px) {
     .marquee-track {
-      --card-width: clamp(9rem, 18vw, 12rem);
-      --half-card-width: clamp(4.5rem, 9vw, 6rem);
-      --card-height: clamp(12rem, 23vw, 16rem);
-      --card-gap: 1rem;
-    }
-    .hero-description {
-      max-width: 24rem;
+      --card-width: clamp(12rem, 24vw, 16rem);
+      --half-card-width: clamp(6rem, 12vw, 8rem);
+      --card-height: clamp(16rem, 30vw, 21rem);
+      --card-gap: 1.5rem;
     }
   }
 
@@ -496,40 +544,31 @@
       font-size: clamp(2rem, 6vw, 3rem);
       white-space: normal;
     }
-    .hero-bottom {
-      align-items: start;
-      flex-direction: column-reverse;
-      gap: 1.25rem;
-    }
-    .hero-description {
-      align-self: flex-end;
-      text-align: right;
-    }
   }
 
   @media (max-width: 639px) {
+    .hero-caption {
+      margin-top: -1.5rem;
+    }
     .hero-title {
       font-size: clamp(2rem, 8vw, 2.75rem);
     }
-    .hero-description {
-      max-width: 22rem;
-    }
     .marquee-window {
-      height: clamp(11rem, 32svh, 20rem);
-      min-height: 11rem;
+      height: clamp(16rem, 40svh, 24rem);
+      min-height: 16rem;
     }
     .marquee-track {
-      --card-width: 8rem;
-      --half-card-width: 4rem;
-      --card-height: 10.5rem;
-      --card-gap: 0.75rem;
+      --card-width: 11rem;
+      --half-card-width: 5.5rem;
+      --card-height: 14.5rem;
+      --card-gap: 1rem;
     }
     .marquee-card {
       border-radius: 1.25rem;
     }
     .card-back {
       border-radius: 1.25rem;
-      transform: translate(5px, -4px);
+      transform: translate(6px, -5px);
     }
     .card-slab {
       border-radius: 1.25rem;

@@ -10,7 +10,7 @@
 
 <header class="relative z-50 w-full bg-black text-white">
   <div
-    class="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 pb-6 pt-20 sm:px-10 sm:pb-8 sm:pt-24 lg:pt-28"
+    class="mx-auto flex w-full max-w-[96rem] items-center justify-between gap-6 px-6 pb-6 pt-20 sm:px-10 sm:pb-8 sm:pt-24 lg:pt-28"
   >
     <a
       href="/"
@@ -37,7 +37,7 @@
 
     <nav
       aria-label="Main navigation"
-      class="hidden items-center gap-7 text-sm tracking-wide lg:flex xl:gap-10"
+      class="hidden items-center gap-7 text-lg tracking-wide lg:flex xl:gap-10"
     >
       {#each links as link}
         <a
