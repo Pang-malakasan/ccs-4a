@@ -102,7 +102,9 @@
 </script>
 
 <section aria-labelledby="hero-title" class="hero bg-black text-white">
-  <div class="hero-intro mx-auto w-full max-w-[96rem] px-6 sm:px-10">
+  <div
+    class="hero-intro mt-12 mx-auto w-full max-w-[96rem] px-6 sm:mt-16 sm:px-10 lg:mt-20"
+  >
     <h1 id="hero-title" class="hero-title font-medium text-white/95">
       Sleek. Scalable. Dynamic.<br />
       Digital that delivers.
@@ -189,8 +191,12 @@
       {/each}
     </div>
   </div>
-  <div class="hero-caption mx-auto w-full max-w-[96rem] px-6 pb-8 sm:px-10 sm:pb-10">
-    <p class="ml-auto max-w-[34rem] text-right text-base leading-relaxed text-white sm:text-lg">
+  <div
+    class="hero-caption mx-auto w-full max-w-[96rem] px-6 pb-8 sm:px-10 sm:pb-10"
+  >
+    <p
+      class="ml-auto max-w-[34rem] text-right text-base leading-relaxed text-white sm:text-lg"
+    >
       From strategy to standout digital experiences, we help your marketing
       reach further and your business grow.
     </p>
@@ -206,11 +212,16 @@
     justify-content: space-between;
   }
   .hero-intro {
+    position: relative;
+    z-index: 2;
     text-align: left;
+    flex-shrink: 0;
+    margin-bottom: -1.5rem;
+    pointer-events: none;
   }
   .hero-title {
     font-size: clamp(1.8rem, 3.3vw, 3.75rem);
-    line-height: 1.05;
+    line-height: 1.18;
     white-space: nowrap;
   }
   .hero-caption {
@@ -220,7 +231,9 @@
     pointer-events: none;
   }
   .hero-caption p {
-    text-shadow: 0 2px 12px #000, 0 0 24px #000;
+    text-shadow:
+      0 2px 12px #000,
+      0 0 24px #000;
   }
   .marquee-window {
     display: flex;
@@ -261,7 +274,7 @@
   }
 
   .marquee-track.playing {
-    animation: drift 24s linear infinite;
+    animation: drift 48s linear infinite;
   }
   .marquee-track.dragging {
     animation-play-state: paused;
@@ -290,7 +303,7 @@
   }
 
   .marquee-track.spreading .featured .marquee-card:not(:nth-child(3)) {
-      animation: card-spread 550ms cubic-bezier(0.22, 1, 0.36, 1)
+    animation: card-spread 550ms cubic-bezier(0.22, 1, 0.36, 1)
       var(--reveal-delay) both;
   }
 
@@ -479,11 +492,19 @@
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      transparent 45%,
-      rgba(0, 0, 0, 0.15) 100%
-    );
+        90deg,
+        rgba(0, 0, 0, 0.38),
+        transparent 20%,
+        transparent 80%,
+        rgba(0, 0, 0, 0.38)
+      ),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent 30%),
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12),
+        transparent 45%,
+        rgba(0, 0, 0, 0.15)
+      );
     box-shadow:
       inset 0 1px 1px rgba(255, 255, 255, 0.25),
       inset 0 0 0 1px rgba(0, 0, 0, 0.2);
