@@ -64,39 +64,60 @@
   });
   const cards = [
     {
-      image: "/hero/sculpture.jpg",
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960533/coffeebean.mp4",
+      brand: "Coffee Bean",
+      brandStyle: "coffee-bean",
       slab: "#333845",
       tint: "#5c6b8c",
       accent: "#60a5fa",
-      alt: "Sculptural monument",
     },
     {
-      image: "/hero/warm-interior.jpg",
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960503/comtex.mp4",
+      brand: "KOKO",
+      brandStyle: "comtex",
       slab: "#7a5a3a",
       tint: "#c7864e",
       accent: "#f59e0b",
-      alt: "Warm interior architecture",
     },
     {
-      image: "/hero/studio.jpg",
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960497/koko.mp4",
+      brand: "KOKO",
+      brandStyle: "koko",
       slab: "#384542",
       tint: "#546e67",
       accent: "#34d399",
-      alt: "Creative studio space",
     },
     {
-      image: "/hero/interior.jpg",
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960740/payzen.mp4",
+      brand: "Pay Zen",
+      brandStyle: "pay-zen",
+      slab: "#384542",
+      tint: "#546e67",
+      accent: "#34d399",
+    },
+    {
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960501/luiemere.mp4",
+      brand: "Lumiere",
+      brandStyle: "lumiere",
       slab: "#736453",
       tint: "#b59b7d",
       accent: "#fbbf24",
-      alt: "Contemporary interior design",
     },
     {
-      image: "/hero/architecture.jpg",
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960507/softbeats.mp4",
+      brand: "Softbeats",
+      brandStyle: "softbeats",
       slab: "#3f4654",
       tint: "#60728c",
       accent: "#38bdf8",
-      alt: "Modern architectural facade",
+    },
+    {
+      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960534/ted.mp4",
+      brand: "ted",
+      brandStyle: "ted",
+      slab: "#473d43",
+      tint: "#87616e",
+      accent: "#fb7185",
     },
   ];
 </script>
@@ -145,7 +166,7 @@
               onanimationend={(event) => {
                 if (
                   repeat === 2 &&
-                  index === 4 &&
+                  index === cards.length - 1 &&
                   event.target === event.currentTarget &&
                   event.animationName.includes("card-spread")
                 ) {
@@ -156,13 +177,6 @@
               <!-- 3D Backplate -->
               <div class="card-back" aria-hidden="true">
                 <div class="card-back-plate">
-                  <img
-                    src={card.image}
-                    alt=""
-                    class="card-back-img"
-                    loading="lazy"
-                    draggable="false"
-                  />
                   <div class="card-back-glass"></div>
                   <div class="card-back-grid"></div>
                   <div class="card-back-accent"></div>
@@ -176,13 +190,148 @@
               <!-- 3D Front Slab -->
               <div class="card-slab">
                 <div class="card-face">
-                  <img
-                    src={card.image}
-                    alt={card.alt}
-                    loading={repeat === 2 ? "eager" : "lazy"}
+                  <video
+                    src={card.video}
+                    aria-label={`${card.brand} brand video`}
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload={repeat === 2 ? "metadata" : "none"}
                     draggable="false"
-                  />
+                  ></video>
                   <span class="card-glass"></span>
+                  <span class={`card-brand card-brand--${card.brandStyle}`}>
+                    {#if card.brandStyle === "coffee-bean"}
+                      <span class="brand-coffee-icon" aria-hidden="true"></span>
+                      <span class="brand-wordmark">Coffee Bean</span>
+                    {:else if card.brandStyle === "pay-zen"}
+                      <span class="brand-pay-icon" aria-hidden="true"></span>
+                      <span class="brand-wordmark">Pay<span>Zen</span></span>
+                    {:else if card.brandStyle === "comtex"}
+                      <svg
+                        class="brand-symbol"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <circle
+                          cx="24"
+                          cy="24"
+                          r="18"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                        />
+                        <path
+                          d="M12 11c17 5 22 17 23 30M10 31c13-3 21-11 27-21M8 21c9 0 19 6 25 18"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      <span class="brand-wordmark">COMTEX</span>
+                    {:else if card.brandStyle === "koko"}
+                      <svg
+                        class="brand-symbol"
+                        viewBox="0 0 96 38"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M3 15 12 12M93 15 84 12M39 14q9-6 18 0"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M12 12q-2 0-2 6v7q0 9 14 9 13 0 16-11l2-8q-13-7-30-3ZM84 12q2 0 2 6v7q0 9-14 9-13 0-16-11l-2-8q13-7 30-3Z"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <span class="brand-wordmark">KOKO</span>
+                    {:else if card.brandStyle === "softbeats"}
+                      <svg
+                        class="brand-symbol"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8 27v-5a16 16 0 0 1 32 0v5M8 25h5a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H9a4 4 0 0 1-4-4v-7a4 4 0 0 1 3-4ZM40 25h-5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h4a4 4 0 0 0 4-4v-7a4 4 0 0 0-3-4Z"
+                          stroke="currentColor"
+                          stroke-width="2.8"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="m21 25-2 8 5-4 5 4-2-8"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <span class="brand-wordmark">softbeats</span>
+                    {:else if card.brandStyle === "lumiere"}
+                      <svg
+                        class="brand-symbol"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M24 4c-6 8-10 15-10 22a10 10 0 0 0 20 0c0-7-4-14-10-22Z"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                        />
+                        <path
+                          d="M24 17c-2 4-4 7-4 10a4 4 0 0 0 8 0c0-3-2-6-4-10Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M10 42h28"
+                          stroke="currentColor"
+                          stroke-width="1"
+                        />
+                      </svg>
+                      <span class="brand-wordmark">LUMIERE</span>
+                    {:else if card.brandStyle === "ted"}
+                      <svg
+                        class="brand-symbol"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M8 31c8 10 23 11 32-1M10 26c9 5 20 3 26-7"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                        />
+                        <circle cx="12" cy="15" r="4" fill="currentColor" />
+                        <circle cx="25" cy="9" r="3" fill="currentColor" />
+                        <circle cx="38" cy="12" r="2" fill="currentColor" />
+                      </svg>
+                      <span class="brand-wordmark">
+                        ted
+                        <svg
+                          class="brand-ted-underline"
+                          viewBox="0 0 100 16"
+                          preserveAspectRatio="none"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M3 11C27 4 64 4 97 8"
+                            stroke="currentColor"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </span>
+                    {:else}
+                      <span class="brand-wordmark">{card.brand}</span>
+                    {/if}
+                  </span>
                 </div>
               </div>
             </div>
@@ -319,6 +468,11 @@
   .featured .marquee-card:nth-child(5) {
     --spread-from: calc(0px - var(--card-step) - var(--card-step));
   }
+  .featured .marquee-card:nth-child(6) {
+    --spread-from: calc(
+      0px - var(--card-step) - var(--card-step) - var(--card-step)
+    );
+  }
 
   .marquee-card {
     position: relative;
@@ -364,18 +518,6 @@
       14px 12px 28px rgba(0, 0, 0, 0.65),
       28px 24px 56px rgba(0, 0, 0, 0.85);
     overflow: hidden;
-  }
-
-  .card-back-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(2px) saturate(125%) brightness(0.95);
-    opacity: 0.88;
-    transform: scale(1.02);
-    pointer-events: none;
   }
 
   .card-back-glass {
@@ -479,12 +621,151 @@
     background: #111;
   }
 
-  .card-face img {
+  .card-face video {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: brightness(0.92) contrast(1.02);
+    pointer-events: none;
+  }
+
+  .card-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: calc(100% - 1.5rem);
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: "Inter Variable", "Helvetica Neue", Helvetica, Arial,
+      sans-serif;
+    font-size: clamp(1.1rem, 2vw, 2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    text-align: center;
+    text-shadow:
+      0 2px 16px #000,
+      0 1px 4px #000;
+    pointer-events: none;
+  }
+  .brand-wordmark {
+    display: block;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  .brand-symbol {
+    display: block;
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    filter: drop-shadow(0 2px 8px #000);
+  }
+  .card-brand--coffee-bean {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1rem, 1.65vw, 1.65rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+  }
+  .brand-coffee-icon {
+    position: relative;
+    display: block;
+    flex: 0 0 1.15em;
+    width: 1.15em;
+    height: 1.5em;
+    border: 0.16em solid currentColor;
+    border-radius: 55% 45% 55% 45%;
+    transform: rotate(35deg);
+  }
+  .brand-coffee-icon::after {
+    content: "";
+    position: absolute;
+    top: -0.13em;
+    left: 50%;
+    width: 0.18em;
+    height: 1.4em;
+    border-left: 0.13em solid currentColor;
+    border-radius: 50%;
+    transform: rotate(16deg);
+  }
+  .card-brand--comtex {
+    font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(1.2rem, 1.9vw, 1.9rem);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+  }
+  .card-brand--koko {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.45rem, 2.4vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+  }
+  .card-brand--koko .brand-symbol {
+    width: 2.8rem;
+    height: auto;
+  }
+  .card-brand--pay-zen {
+    font-size: clamp(1.35rem, 2.5vw, 2.4rem);
+    font-weight: 750;
+    letter-spacing: -0.075em;
+  }
+  .card-brand--pay-zen .brand-wordmark span {
+    font-weight: 400;
+  }
+  .brand-pay-icon {
+    display: block;
+    flex: 0 0 0.9em;
+    width: 0.9em;
+    height: 0.9em;
+    border: 0.2em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    transform: rotate(-40deg);
+  }
+  .card-brand--lumiere {
+    font-family: "Times New Roman", Times, serif;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+  .card-brand--softbeats {
+    font-family: "Trebuchet MS", "Arial Rounded MT Bold", sans-serif;
+    font-size: clamp(1rem, 1.6vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.065em;
+    text-transform: lowercase;
+  }
+  .card-brand--ted {
+    font-family: "Segoe Script", "Brush Script MT", "URW Chancery L", cursive;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: -0.04em;
+  }
+  .card-brand--ted .brand-wordmark {
+    position: relative;
+    padding-bottom: 0.15em;
+  }
+  .brand-ted-underline {
+    position: absolute;
+    bottom: -0.04em;
+    left: 0;
+    width: 100%;
+    height: 0.25em;
+    filter: drop-shadow(0 2px 4px #000);
+  }
+  .card-brand--ted .brand-symbol {
+    width: 2.2rem;
+    height: 2.2rem;
   }
 
   .card-glass {
@@ -605,6 +886,39 @@
     }
     .card-face {
       border-radius: calc(1.25rem - 2px);
+    }
+    .card-brand--coffee-bean {
+      font-size: 0.95rem;
+    }
+    .card-brand--comtex {
+      font-size: 1.35rem;
+    }
+    .card-brand--koko {
+      font-size: 1.75rem;
+    }
+    .card-brand--pay-zen {
+      font-size: 1.6rem;
+    }
+    .card-brand--lumiere {
+      font-size: 1rem;
+    }
+    .card-brand--softbeats {
+      font-size: 1.05rem;
+    }
+    .card-brand--ted {
+      font-size: 2rem;
+    }
+    .brand-symbol {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+    .card-brand--koko .brand-symbol {
+      width: 2.3rem;
+      height: auto;
+    }
+    .card-brand--ted .brand-symbol {
+      width: 1.7rem;
+      height: 1.7rem;
     }
   }
 
