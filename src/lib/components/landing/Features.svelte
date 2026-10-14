@@ -18,7 +18,7 @@
         "Maintenance & hosting",
       ],
       theme: "web",
-      image: "/services/developers.jpg",
+      image: "https://res.cloudinary.com/lremvhvs/image/upload/v1791996544/developers.jpg",
     },
     {
       number: "02",
@@ -33,7 +33,7 @@
         "Email marketing",
       ],
       theme: "marketing",
-      image: "/services/marketing.jpg",
+      image: "https://res.cloudinary.com/lremvhvs/image/upload/v1791996544/marketing.jpg",
     },
     {
       number: "03",
@@ -42,7 +42,7 @@
         "A distinctive point of view that stays with people across every touchpoint.",
       offerings: ["Brand identity", "Strategy & positioning", "Rebranding"],
       theme: "branding",
-      image: "/services/branding.jpg",
+      image: "https://res.cloudinary.com/lremvhvs/image/upload/v1791996542/branding.jpg",
     },
     {
       number: "04",
@@ -54,7 +54,7 @@
         "Motion graphics & animation",
       ],
       theme: "creative",
-      image: "/services/multimedia.jpg",
+      image: "https://res.cloudinary.com/lremvhvs/image/upload/v1791996543/multimedia.jpg",
     },
   ];
 
@@ -236,13 +236,14 @@
     <div class="intro-inner">
       <p class="intro-kicker">What we build</p>
       <h2 id="services-title">If you can describe it,<br />we can build it.</h2>
+      <p class="mobile-scroll-cue">Scroll to explore all 4 services <span aria-hidden="true">↓</span></p>
     </div>
   </div>
   <div class="gallery-wrap" bind:this={galleryWrap}>
     <div class="services-gallery" bind:this={gallery}>
       <div class="gallery-item services-center">
         <img
-          src="/services/service.jpg"
+          src="https://res.cloudinary.com/lremvhvs/image/upload/v1791996543/service.jpg"
           alt=""
           loading="lazy"
           decoding="async"
@@ -316,6 +317,9 @@
     font-weight: 450;
     line-height: 1.04;
     letter-spacing: -0.07em;
+  }
+  .mobile-scroll-cue {
+    display: none;
   }
   .gallery-wrap {
     position: relative;
@@ -589,20 +593,44 @@
   }
   @media (max-width: 639px) {
     .services-intro {
-      padding: 80px 16px 24px;
+      padding: 64px 16px 12px;
+    }
+    .mobile-scroll-cue {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 22rem;
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid rgb(0 0 0 / 20%);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .mobile-scroll-cue span {
+      font-size: 1.5rem;
+      line-height: 1;
     }
     .gallery-wrap {
-      padding: 36px 16px;
+      padding: 20px 16px 36px;
     }
     .services-gallery {
       grid-template-columns: 1fr;
     }
+    .services-gallery .card-top {
+      display: flex;
+    }
+    .services-gallery .card-content {
+      justify-content: space-between;
+      height: auto;
+      min-height: 390px;
+    }
     .services-center {
       grid-area: auto;
-      min-height: 310px;
+      min-height: 200px;
     }
     .service-card {
-      min-height: 350px;
+      min-height: 0;
     }
     .creative .card-bottom {
       max-width: 85%;
