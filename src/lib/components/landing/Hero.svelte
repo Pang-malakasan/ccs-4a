@@ -64,12 +64,18 @@
   });
   // Keep the original versioned Cloudinary URLs as the source of truth.
   function videoUrl(source: string) {
-    return source.replace("/video/upload/", "/video/upload/c_limit,w_640/q_auto/f_auto/");
+    return source.replace(
+      "/video/upload/",
+      "/video/upload/c_limit,w_640/q_auto/f_auto/",
+    );
   }
 
   function posterUrl(source: string) {
     return source
-      .replace("/video/upload/", "/video/upload/so_0,c_limit,w_640/q_auto/f_auto/")
+      .replace(
+        "/video/upload/",
+        "/video/upload/so_0,c_limit,w_640/q_auto/f_auto/",
+      )
       .replace(/\.mp4$/, ".jpg");
   }
 
@@ -96,7 +102,8 @@
 
   const cards = [
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960533/coffeebean.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960533/coffeebean.mp4",
       brand: "Coffee Bean",
       brandStyle: "coffee-bean",
       slab: "#333845",
@@ -104,7 +111,8 @@
       accent: "#60a5fa",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960503/comtex.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960503/comtex.mp4",
       brand: "KOKO",
       brandStyle: "comtex",
       slab: "#7a5a3a",
@@ -112,7 +120,8 @@
       accent: "#f59e0b",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960497/koko.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960497/koko.mp4",
       brand: "KOKO",
       brandStyle: "koko",
       slab: "#384542",
@@ -120,7 +129,8 @@
       accent: "#34d399",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960740/payzen.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960740/payzen.mp4",
       brand: "Pay Zen",
       brandStyle: "pay-zen",
       slab: "#384542",
@@ -128,7 +138,8 @@
       accent: "#34d399",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960501/luiemere.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960501/luiemere.mp4",
       brand: "Lumiere",
       brandStyle: "lumiere",
       slab: "#736453",
@@ -136,7 +147,8 @@
       accent: "#fbbf24",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960507/softbeats.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960507/softbeats.mp4",
       brand: "Softbeats",
       brandStyle: "softbeats",
       slab: "#3f4654",
@@ -144,7 +156,8 @@
       accent: "#38bdf8",
     },
     {
-      video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960534/ted.mp4",
+      video:
+        "https://res.cloudinary.com/lremvhvs/video/upload/v1791960534/ted.mp4",
       brand: "ted",
       brandStyle: "ted",
       slab: "#473d43",
@@ -155,8 +168,17 @@
 </script>
 
 <svelte:head>
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin="anonymous" />
-  <link rel="preload" as="image" href={posterUrl(cards[2].video)} fetchpriority="high" />
+  <link
+    rel="preconnect"
+    href="https://res.cloudinary.com"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href={posterUrl(cards[2].video)}
+    fetchpriority="high"
+  />
 </svelte:head>
 
 <section aria-labelledby="hero-title" class="hero bg-black text-white">
@@ -164,8 +186,8 @@
     class="hero-intro mt-12 mx-auto w-full max-w-[96rem] px-6 sm:mt-16 sm:px-10 lg:mt-20"
   >
     <h1 id="hero-title" class="hero-title font-medium text-white/95">
-      Sleek. Scalable. Dynamic.<br />
-      Digital that delivers.
+      Limitless. Global. Ready.<br />
+      Tap into $500B market.
     </h1>
   </div>
 
@@ -384,8 +406,8 @@
     <p
       class="ml-auto max-w-[34rem] text-right text-base leading-relaxed text-white sm:text-lg"
     >
-      From strategy to standout digital experiences, we help your marketing
-      reach further and your business grow.
+      Stop settling for average reach. We craft digital journeys that make your
+      brand unforgettable worldwide. Let's scale together.
     </p>
   </div>
 </section>
