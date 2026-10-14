@@ -407,7 +407,7 @@
       class="ml-auto max-w-[34rem] text-right text-base leading-relaxed text-white sm:text-lg"
     >
       Stop settling for average reach. We craft digital journeys that make your
-      brand unforgettable worldwide. Let's scale together.
+      brand unforgettable worldwide.
     </p>
   </div>
 </section>
