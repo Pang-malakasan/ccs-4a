@@ -18,11 +18,17 @@
     let initialized = false;
     let frame = 0;
 
+    function isOnLight(x: number, y: number) {
+      const target = document.elementFromPoint(x, y);
+      return !!target?.closest("#contact") ||
+        (!!target?.closest("#services") && !target?.closest(".gallery-item"));
+    }
+
     function drawRing() {
       ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       ring.classList.toggle(
         "on-light",
-        !!document.elementFromPoint(ringX, ringY)?.closest("#contact"),
+        isOnLight(ringX, ringY),
       );
     }
 
@@ -75,7 +81,7 @@
         !!target?.closest(
           'h1, h2, h3, h4, h5, h6, p, blockquote, li, span, small, strong, em, label',
         );
-      const onLight = !!target?.closest('#contact');
+      const onLight = isOnLight(event.clientX, event.clientY);
       cursor.classList.toggle("over-gallery", overGallery);
       cursor.classList.toggle(
         "is-dragging",

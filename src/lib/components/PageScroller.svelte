@@ -17,12 +17,14 @@
       frame = requestAnimationFrame(() => {
         const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
         progress = max ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-        const contact = document.getElementById("contact");
-        if (contact && track) {
-          const section = contact.getBoundingClientRect();
+        if (track) {
           const rail = track.getBoundingClientRect();
-          const center = rail.top + rail.height / 2;
-          onLight = section.top <= center && section.bottom >= center;
+          const underRail = document.elementsFromPoint(
+            rail.left + rail.width / 2,
+            rail.top + rail.height / 2,
+          ).find((element) => element !== track && !track?.contains(element));
+          onLight = !!underRail?.closest("#services, #contact") &&
+            !underRail.closest(".gallery-item");
         } else {
           onLight = false;
         }
