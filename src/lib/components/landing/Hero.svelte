@@ -62,6 +62,38 @@
       spreadComplete = true;
     }
   });
+  // Keep the original versioned Cloudinary URLs as the source of truth.
+  function videoUrl(source: string) {
+    return source.replace("/video/upload/", "/video/upload/c_limit,w_640/q_auto/f_auto/");
+  }
+
+  function posterUrl(source: string) {
+    return source
+      .replace("/video/upload/", "/video/upload/so_0,c_limit,w_640/q_auto/f_auto/")
+      .replace(/\.mp4$/, ".jpg");
+  }
+
+  function loadWhenNear(node: HTMLVideoElement, source: string) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (!node.src) node.src = videoUrl(source);
+          void node.play().catch(() => {});
+        } else {
+          node.pause();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(node);
+    return {
+      destroy() {
+        observer.disconnect();
+        node.pause();
+      },
+    };
+  }
+
   const cards = [
     {
       video: "https://res.cloudinary.com/lremvhvs/video/upload/v1791960533/coffeebean.mp4",
@@ -121,6 +153,11 @@
     },
   ];
 </script>
+
+<svelte:head>
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin="anonymous" />
+  <link rel="preload" as="image" href={posterUrl(cards[2].video)} fetchpriority="high" />
+</svelte:head>
 
 <section aria-labelledby="hero-title" class="hero bg-black text-white">
   <div
@@ -191,13 +228,14 @@
               <div class="card-slab">
                 <div class="card-face">
                   <video
-                    src={card.video}
+                    use:loadWhenNear={card.video}
+                    poster={posterUrl(card.video)}
                     aria-label={`${card.brand} brand video`}
                     autoplay
                     muted
                     loop
                     playsinline
-                    preload={repeat === 2 ? "metadata" : "none"}
+                    preload="none"
                     draggable="false"
                   ></video>
                   <span class="card-glass"></span>
