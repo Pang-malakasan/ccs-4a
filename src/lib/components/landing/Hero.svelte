@@ -186,8 +186,8 @@
     class="hero-intro mt-12 mx-auto w-full max-w-[96rem] px-6 sm:mt-16 sm:px-10 lg:mt-20"
   >
     <h1 id="hero-title" class="hero-title font-medium text-white/95">
-      Limitless. Global. Ready.<br />
-      Tap into $500B market.
+      <span class="hero-line">Limitless. Global. Ready.</span>
+      <span class="hero-line">Tap into $500B market.</span>
     </h1>
   </div>
 
@@ -431,6 +431,10 @@
   .hero-title {
     font-size: clamp(1.8rem, 3.3vw, 3.75rem);
     line-height: 1.18;
+    white-space: nowrap;
+  }
+  .hero-line {
+    display: block;
     white-space: nowrap;
   }
   .hero-caption {
@@ -903,8 +907,8 @@
 
   @media (max-width: 767px) {
     .hero-title {
-      font-size: clamp(2rem, 6vw, 3rem);
-      white-space: normal;
+      font-size: clamp(1.4rem, 4.2vw, 2.25rem);
+      white-space: nowrap;
     }
   }
 
@@ -913,7 +917,9 @@
       margin-top: -1.5rem;
     }
     .hero-title {
-      font-size: clamp(2rem, 8vw, 2.75rem);
+      font-size: clamp(1.15rem, 5.5vw, 1.75rem);
+      line-height: 1.15;
+      white-space: nowrap;
     }
     .marquee-window {
       height: clamp(16rem, 40svh, 24rem);
