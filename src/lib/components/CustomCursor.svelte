@@ -21,7 +21,7 @@
     function isOnLight(x: number, y: number) {
       const target = document.elementFromPoint(x, y);
       return !!target?.closest("#contact") ||
-        (!!target?.closest("#services") && !target?.closest(".gallery-item"));
+        (!!target?.closest("#services") && !target?.closest(".service-viewer"));
     }
 
     function drawRing() {

@@ -24,7 +24,7 @@
             rail.top + rail.height / 2,
           ).find((element) => element !== track && !track?.contains(element));
           onLight = !!underRail?.closest("#services, #contact") &&
-            !underRail.closest(".gallery-item");
+            !underRail.closest(".service-viewer");
         } else {
           onLight = false;
         }
