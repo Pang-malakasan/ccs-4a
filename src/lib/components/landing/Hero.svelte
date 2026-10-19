@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
+  import { adaptiveVideo } from '#lib/performance.js';
 
   const intro = getContext<{ complete: boolean }>("landing-intro") ?? {
     complete: true,
@@ -58,9 +59,15 @@
   }
 
   onMount(() => {
+    if (document.documentElement.dataset.quality !== 'high') spreadComplete = true;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       spreadComplete = true;
     }
+    // The gallery should still appear if an animationend event is missed.
+    const revealTimer = window.setTimeout(() => {
+      spreadComplete = true;
+    }, 4500);
+    return () => window.clearTimeout(revealTimer);
   });
   // Keep the original versioned Cloudinary URLs as the source of truth.
   function videoUrl(source: string) {
@@ -79,27 +86,6 @@
       .replace(/\.mp4$/, ".jpg");
   }
 
-  function loadWhenNear(node: HTMLVideoElement, source: string) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          if (!node.src) node.src = videoUrl(source);
-          void node.play().catch(() => {});
-        } else {
-          node.pause();
-        }
-      },
-      { rootMargin: "300px" },
-    );
-    observer.observe(node);
-    return {
-      destroy() {
-        observer.disconnect();
-        node.pause();
-      },
-    };
-  }
-
   const cards = [
     {
       video:
@@ -113,7 +99,7 @@
     {
       video:
         "https://res.cloudinary.com/lremvhvs/video/upload/v1791960503/comtex.mp4",
-      brand: "KOKO",
+      brand: "COMTEX",
       brandStyle: "comtex",
       slab: "#7a5a3a",
       tint: "#c7864e",
@@ -250,7 +236,7 @@
               <div class="card-slab">
                 <div class="card-face">
                   <video
-                    use:loadWhenNear={card.video}
+                    use:adaptiveVideo={videoUrl(card.video)}
                     poster={posterUrl(card.video)}
                     aria-label={`${card.brand} brand video`}
                     autoplay

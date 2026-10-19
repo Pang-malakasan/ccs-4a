@@ -1,26 +1,176 @@
-@import '@fontsource-variable/inter/wght.css';
-@import 'tailwindcss';
+@import "@fontsource-variable/inter/wght.css";
+@import "tailwindcss";
 
 html {
-	font-family: 'Inter Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
-	background: #000;
+  background: #000;
+}
+
+.device-analysis {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+/* Lighter modes use document flow instead of pinned, full-viewport scenes. */
+html[data-quality="medium"] .story,
+html[data-quality="basic"] .story {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible;
+}
+html[data-quality="medium"] .story-track,
+html[data-quality="basic"] .story-track {
+  display: grid;
+  width: 100% !important;
+  height: auto;
+}
+html[data-quality="medium"] .story-panel,
+html[data-quality="basic"] .story-panel {
+  width: 100% !important;
+  box-sizing: border-box;
+  height: 90svh;
+  min-height: 620px;
+  isolation: isolate;
+  overflow: hidden;
+  background: #fff;
+}
+html[data-quality="medium"] .story-panel-intro,
+html[data-quality="basic"] .story-panel-intro {
+  padding: 64px 5%;
+}
+html[data-quality="medium"] .story-heading,
+html[data-quality="basic"] .story-heading {
+  width: 70%;
+  margin: 8svh 0 0 20%;
+}
+html[data-quality="medium"] .story-intro-film,
+html[data-quality="basic"] .story-intro-film {
+  right: -3%;
+  bottom: -18%;
+  width: 55%;
+  height: 65%;
+  transform: rotate(90deg) scaleY(-1);
+}
+html[data-quality="medium"] .story-intro-film video,
+html[data-quality="basic"] .story-intro-film video {
+  object-fit: cover;
+  object-position: top right;
+  filter: none;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+html[data-quality="medium"] .story video,
+html[data-quality="basic"] .story video {
+  background: transparent;
+  mix-blend-mode: normal;
+}
+html[data-quality="medium"] .story-panel-film,
+html[data-quality="basic"] .story-panel-film {
+  height: 75svh;
+  min-height: 560px;
+}
+html[data-quality="medium"] .story-panel-film .story-caption,
+html[data-quality="basic"] .story-panel-film .story-caption {
+  position: absolute;
+  left: 5%;
+  bottom: 8%;
+  width: 90%;
+  margin: 0;
+  text-align: left;
+}
+html[data-quality="medium"] .story-caption h2,
+html[data-quality="basic"] .story-caption h2 {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+}
+html[data-quality="medium"] .story-film-flowers,
+html[data-quality="basic"] .story-film-flowers {
+  top: 0;
+  width: 48%;
+  height: 52%;
+  object-fit: cover;
+}
+html[data-quality="medium"] .cloud-row {
+  animation: none !important;
+}
+html[data-quality="basic"] #work *,
+html[data-quality="basic"] #work *::before,
+html[data-quality="basic"] #work *::after {
+  animation: none !important;
+  transition: none !important;
+}
+html[data-quality="medium"] .star:nth-child(n + 41) {
+  display: none;
+}
+html[data-quality="basic"] *,
+html[data-quality="basic"] *::before,
+html[data-quality="basic"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+html[data-quality="basic"] .cloud-row,
+html[data-quality="basic"] .star,
+html[data-quality="basic"] .card-back {
+  display: none !important;
+}
+html[data-quality="basic"] .navbar,
+html[data-quality="basic"] .card-glass {
+  backdrop-filter: none !important;
+}
+
+@media (max-width: 639px) {
+  html[data-quality="medium"] .story-panel-intro,
+  html[data-quality="basic"] .story-panel-intro { padding: 60px 20px; }
+  html[data-quality="medium"] .story-heading,
+  html[data-quality="basic"] .story-heading { width: 86%; margin: 10svh 0 0 9%; }
+  html[data-quality="medium"] .story-intro-film,
+  html[data-quality="basic"] .story-intro-film { width: 70%; height: 42%; bottom: -8%; right: -8%; }
+  html[data-quality="medium"] .story-panel,
+  html[data-quality="basic"] .story-panel {
+    min-height: 640px;
+  }
+  html[data-quality="medium"] .story-panel-film,
+  html[data-quality="basic"] .story-panel-film {
+    min-height: 540px;
+  }
+  html[data-quality="medium"] .story-film-flowers,
+  html[data-quality="basic"] .story-film-flowers {
+    width: 75%;
+    height: 40%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-	html.custom-scroll-active {
-		scrollbar-width: none;
-	}
-	html.custom-scroll-active::-webkit-scrollbar {
-		display: none;
-	}
+  html.custom-scroll-active {
+    scrollbar-width: none;
+  }
+  html.custom-scroll-active::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
-	html.custom-cursor-active,
-	html.custom-cursor-active * {
-		cursor: none !important;
-	}
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none !important;
+  }
 }

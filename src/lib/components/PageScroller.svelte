@@ -23,8 +23,10 @@
             rail.left + rail.width / 2,
             rail.top + rail.height / 2,
           ).find((element) => element !== track && !track?.contains(element));
-          onLight = !!underRail?.closest("#services, #contact") &&
-            !underRail.closest(".service-viewer");
+          onLight = !!underRail?.closest(".services-story, .story") ||
+            (!!underRail?.closest("#testimonials") && !underRail.closest(".portrait")) ||
+            (!!underRail?.closest("#services, #work, #contact") &&
+              !underRail.closest(".service-viewer"));
         } else {
           onLight = false;
         }
@@ -39,6 +41,7 @@
 
     syncAvailability();
     window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("services-scene-update", update);
     window.addEventListener("resize", update);
     finePointer.addEventListener("change", syncAvailability);
     reducedMotion.addEventListener("change", syncAvailability);
@@ -46,6 +49,7 @@
       cancelAnimationFrame(frame);
       document.documentElement.classList.remove("custom-scroll-active");
       window.removeEventListener("scroll", update);
+      window.removeEventListener("services-scene-update", update);
       window.removeEventListener("resize", update);
       finePointer.removeEventListener("change", syncAvailability);
       reducedMotion.removeEventListener("change", syncAvailability);
@@ -125,7 +129,7 @@
     height: min(44vh, 320px);
     transform: translateY(-50%);
     border-radius: 999px;
-    background: rgb(255 255 255 / 20%);
+    background: rgb(255 255 255 / 32%);
     background-clip: content-box;
     padding: 0 7px;
     cursor: pointer;
@@ -156,15 +160,15 @@
     outline-offset: 5px;
   }
   .page-scroller.on-light {
-    background: rgb(0 0 0 / 20%);
+    background: rgb(17 17 17 / 22%);
     background-clip: content-box;
   }
   .page-scroller.on-light .page-scroller-fill {
-    background: rgb(0 0 0 / 75%);
+    background: #252525;
   }
   .page-scroller.on-light .page-scroller-thumb {
     background: #111;
-    box-shadow: 0 0 18px rgb(0 0 0 / 30%);
+    box-shadow: 0 2px 10px rgb(0 0 0 / 25%);
   }
   .page-scroller.on-light:focus-visible {
     outline-color: #111;

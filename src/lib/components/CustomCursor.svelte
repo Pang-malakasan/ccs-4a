@@ -20,7 +20,9 @@
 
     function isOnLight(x: number, y: number) {
       const target = document.elementFromPoint(x, y);
-      return !!target?.closest("#contact") ||
+      if (target?.closest("#testimonials")) return !target.closest(".portrait");
+      if (target?.closest(".services-story, .story")) return true;
+      return !!target?.closest("#contact, #work") ||
         (!!target?.closest("#services") && !target?.closest(".service-viewer"));
     }
 
@@ -102,7 +104,15 @@
       initialized = false;
     }
 
+    function syncSurfaceColors() {
+      if (!initialized) return;
+      cursor.classList.toggle("on-light", isOnLight(targetX, targetY));
+      ring.classList.toggle("on-light", isOnLight(ringX, ringY));
+    }
+
     window.addEventListener("pointermove", move, { signal: controller.signal });
+    window.addEventListener("scroll", syncSurfaceColors, { passive: true, signal: controller.signal });
+    window.addEventListener("services-scene-update", syncSurfaceColors, { signal: controller.signal });
     document.addEventListener(
       "pointerout",
       (event) => {

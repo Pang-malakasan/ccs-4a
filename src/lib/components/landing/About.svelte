@@ -10,6 +10,7 @@
   let section: HTMLElement;
 
   onMount(() => {
+    if (document.documentElement.dataset.quality !== 'high') return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let disposed = false;

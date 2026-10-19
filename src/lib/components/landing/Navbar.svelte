@@ -104,6 +104,7 @@
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
     { href: "#work", label: "Our Work" },
+    { href: "#testimonials", label: "Testimonials" },
     { href: "#contact", label: "Contact" },
   ];
 </script>
@@ -124,7 +125,7 @@
     class="navbar-inner mx-auto flex w-full max-w-[96rem] items-center justify-between gap-6 px-6 sm:px-10"
   >
     <a
-      href="/"
+      href="#top"
       class="brand flex shrink-0 items-center"
       aria-label="Sypher Creative Solutions, home"
     >
